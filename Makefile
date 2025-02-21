@@ -1,4 +1,5 @@
 FC=gfortran
+
 FCFLAGS=$(shell pkg-config --cflags trexio)
 LIBS=$(shell pkg-config --libs trexio)
 
