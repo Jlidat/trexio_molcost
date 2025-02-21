@@ -74,7 +74,7 @@ program test
               print*, 'Error: '//trim(err_msg)
               call exit(-1)
       endif
-      print*, 'shell_num=', shell_num
+!      print*, 'shell_num=', shell_num
 
       !shell_ang_mom
       allocate(shell_ang_mom(shell_num))
@@ -93,8 +93,8 @@ program test
               print*, 'Error: '//trim(err_msg)
               call exit(-1)
       endif
-      print*, 'nucleus_index='
-      print '(12(I4))', nucleus_index
+!      print*, 'nucleus_index='
+!      print '(12(I4))', nucleus_index
 
      !------------------je lis les atomes----------
       !Labels des atomes :
@@ -168,9 +168,9 @@ program test
 !                 else
 !                         labels(j)='dzz'
 !                endif
-            print*, labels(j)
           enddo
        enddo
+       print '(5(X,A12))', (labels(j), j=1,n)
 !-----------------------------------
       !Labels des atomes :
 !      allocate(label(nucleus_num))
