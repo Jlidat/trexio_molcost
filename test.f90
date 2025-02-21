@@ -20,7 +20,7 @@ program test
       integer :: shell_num
       integer, allocatable :: shell_ang_mom(:),nucleus_index(:)
       !character(len=6), allocatable :: tab(:,:)
-      character(len=6), allocatable :: labels(:)
+      character(len=12), allocatable :: labels(:)
       character(len=6) :: shell_labels(6,0:2)
 
       integer(trexio_t) :: trexio_file
@@ -142,7 +142,7 @@ program test
         l=shell_ang_mom(i)
            do k=1, ((l+1)*(l+2))/2
                 j=j+1
-                labels(j) = shell_labels(k,l)
+                labels(j) = '''' // shell_labels(k,l) //''','
 !                write(k_char, '(I4)') k
 !                write(l_char, '(I4)') l
 !                kl_char=trim(adjustl(k_char))//trim(adjustl(l_char))
