@@ -6,22 +6,19 @@ program test
       character*(128) :: err_msg
 
       integer :: nucleus_num
-      integer :: i,j,k,l,m
+      integer :: i,j,k,l
       integer :: n
-      integer :: max_str_len
       double precision, allocatable :: coord(:,:)
       double precision :: E_nuclear_repulsion
       character(len=4), allocatable :: label(:)
-      character(len=6), allocatable :: label_c(:)
+      character(len=14), allocatable :: label_c(:)
       character(len=6), allocatable :: label_l(:)
       character(len=4) :: j_char, k_char, l_char,kl_char
-      character(len=6)::s, px, py, pz, dxx, dxy, dxz, dyy, dyz, dzz
       integer :: c
       integer :: shell_num
       integer, allocatable :: shell_ang_mom(:),nucleus_index(:)
-      !character(len=6), allocatable :: tab(:,:)
-      character(len=6), allocatable :: labels(:)
-
+      character(len=14), allocatable :: labels(:)
+      character(len=14), allocatable :: labelindex(:)
 
       integer(trexio_t) :: trexio_file 
       integer(trexio_exit_code) :: rc
@@ -73,7 +70,6 @@ program test
               print*, 'Error: '//trim(err_msg)
               call exit(-1)
       endif      
-      print*, 'shell_num=', shell_num
     
       !shell_ang_mom
       allocate(shell_ang_mom(shell_num))
@@ -92,10 +88,10 @@ program test
               print*, 'Error: '//trim(err_msg)
               call exit(-1)
       endif      
-      print*, 'nucleus_index='
-      print '(12(I4))', nucleus_index
+!      print*, 'nucleus_index='
+!      print '(12(I4))', nucleus_index
 
-     !------------------je lis les atomes----------
+     !---------------Lecture des labeles des atomes----------
       !Labels des atomes :
       allocate(label(nucleus_num))
       rc = trexio_read_nucleus_label(trexio_file, label, 4)
@@ -105,8 +101,8 @@ program test
               call exit(-1)
       endif
       
-      !print '(A, I6)', ' atom='
-      allocate(label_c(nucleus_num))
+!      print '(A, I6)', ' atom='
+      allocate(label_c(nucleus_num))!Résultat affiché en colonne
       do i=1, nucleus_num
         c=1
         do j=1, i 
@@ -125,77 +121,72 @@ program test
       do i=1, nucleus_num
           label_l(i) = ''''//label_c(i)//''''
       enddo
-!     deallocate(label_c)
-      !-------------je lis les orbits------------------------
-      !Labels et orbites :
-      print '(A, I4)',' label='
-     
+!    deallocate(label_c)
+
+      !-Lecture des noms des atomes de label_c et les faire correspondre aux nucleus_index--
+!    print*, 'labelindex='
+    allocate(labelindex(shell_num))
+      do i=1, shell_num 
+          do j=1, nucleus_num
+                if(nucleus_index(i)==j)then
+                        labelindex(i)=label_c(j)
+                endif
+           enddo
+!                print*, labelindex(i)
+       enddo
+
+      !-----Lecture des orbits--------
+      !Labels et orbites :    
       j=0
-      allocate(labels(25))
+      allocate(labels(n))
       do i=1, shell_num
         l=shell_ang_mom(i)
            do k=1, ((l+1)*(l+2))/2
                 j=j+1
+!               allocate(labels(j))
                 write(k_char, '(I4)') k
                 write(l_char, '(I4)') l
                 kl_char=trim(adjustl(k_char))//trim(adjustl(l_char))
 !                print*, kl_char
                 labels(j) = trim(kl_char)
                 if(labels(j)=='10') then
-                        labels(j)='s'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'s'//'   '//''''
                elseif(labels(j)=='11') then
-                         labels(j)='px'
+                        !labels(j)=trim(labelindex(i))//'px'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'px'//'  '//''''
                 elseif(labels(j)=='21')then
-                         labels(j)='py'
+                        !labels(j)='py'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'py'//'  '//''''
                 elseif(labels(j)=='31')then
-                         labels(j)='pz'
+                        !labels(j)='pz'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'pz'//'  '//''''
                 elseif(labels(j)=='12')then
-                         labels(j)='dxx'
+                        !labels(j)='dxx'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'dxx'//' '//''''
                elseif(labels(j)=='22')then
-                        labels(j)='dxy'
+                        !labels(j)='dxy'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'dxy'//' '//''''
                 elseif(labels(j)=='32')then
-                         labels(j)='dxz'
+                        !labels(j)='dxz'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'dxz'//' '//''''
                elseif(labels(j)=='42')then
-                         labels(j)='dyy'
+                        !labels(j)='dyy'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'dyy'//' '//''''
                 elseif(labels(j)=='52')then
                          labels(j)='dyz'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'dyz'//' '//''''
                  else
                          labels(j)='dzz'
+                        labels(j)=''''//trim(labelindex(i))//'  '//'dzz'//' '//''''
                 endif
-            print*, labels(j)
+           
+          !  print*, labels(j)
           enddo
        enddo
-!-----------------------------------
-      !Labels des atomes :
-!      allocate(label(nucleus_num))
-!      rc = trexio_read_nucleus_label(trexio_file, label, 4)
-!      if(rc/=TREXIO_SUCCESS) then
-!              call trexio_string_of_error(rc, err_msg)
-!              print*, 'Error: '//trim(err_msg)
-!              call exit(-1)
-!      endif
-      
-!      allocate(labels_c(nucleus_num))
-!      do i=1, nucleus_num
-!        c=1
-!        do j=1, i 
-!            if(label(i)==label(j)) then
-!                    if(i==j) then
-!                           write(j_char, '(I4)') c 
-!                           labels_c(i)=trim(adjustl(label(i)))//trim(adjustl(j_char))
-                           !print*, labels_c(i)
-!                   else
-!                            c=c+1
-!                    endif
-!            endif
-!          enddo
-!       enddo
-!      allocate(labels_l(nucleus_num))
-!      do i=1, nucleus_num
-!          labels_l(i) = ''''//labels_c(i)//''''
-!      enddo
-
-     
+       !----
+       print '(A, I4)',' label='
+       print '(5(A10, '',''))',(labels(i), i=1, n)
+   
       !Atomes
       print '(A, I6)', ' atom='
       print '(A, 4(A5,'''''',''))',' ', (label_l(i), i=1, nucleus_num) 
