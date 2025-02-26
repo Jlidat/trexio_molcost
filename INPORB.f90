@@ -15,6 +15,9 @@ program INPORB
         real(8), allocatable :: occ_1e(:,:)
         real(8), allocatable :: occupation(:,:)
 
+        character(len=8) :: date, time
+        character(len=7) :: day, month, year
+
         input_filename = 'h2o.h5'
         ! Ouverture du fichier
         trexio_file=trexio_open(input_filename, 'r', TREXIO_AUTO, rc)
@@ -51,8 +54,13 @@ print '(3(I8))', 0, 1, 2
         endif
        ! print*, 'mo_num = '
         print '(I8)', mo_num
-        
-print '(A57,/)','*BC:HOST  cnxv3-4 PID 39350 DATE Jour Mois 13 heure année'
+
+call date_and_time(date=date, time=time)
+call system("echo $$")
+day=date(1:4)
+month=date(5:6)
+year=date(7:8)
+print '(A16,x,A4,x,A2,x,A2,x,A8/)','*BC:HOST cnxv3-4', day, month, year, time
 !----------------------------------------------------------
 print '(A4)', '#ORB'
 !Les coefficients
