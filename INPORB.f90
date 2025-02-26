@@ -10,12 +10,10 @@ program INPORB
         
         integer :: ao_num, mo_num
         integer :: i,j
-        real(8), allocatable :: coeff(:,:)
-        real(8), allocatable :: coefficient(:)
-       ! real(8), allocatable :: coefficients(:,:)
+        real(8), allocatable :: coefficient(:,:)
         real(8) :: format_fichier
-        !character(len=20), allocatable :: coefficient_str(:)
-
+        real(8), allocatable :: occ_1e(:,:)
+        real(8), allocatable :: occupation(:,:)
 
         input_filename = 'h2o.h5'
         ! Ouverture du fichier
@@ -29,7 +27,7 @@ program INPORB
 format_fichier=1.1
 print '((A7),(F4.1))', '#INPORB', format_fichier
 print '(A5)', '#INFO'
-print '(A14)', '* SCF orbitals'
+print '(A14, /)', '* SCF orbitals'
 print '(3(I8))', 0, 1, 2
 
 
@@ -54,34 +52,42 @@ print '(3(I8))', 0, 1, 2
        ! print*, 'mo_num = '
         print '(I8)', mo_num
         
-print*,'*BC:HOST  cnxv3-4 PID 39350 DATE Jour Mois 13 heure année'
+print '(A57,/)','*BC:HOST  cnxv3-4 PID 39350 DATE Jour Mois 13 heure année'
 !----------------------------------------------------------
-!#ORB
-!Les coefficients 
-        allocate(coeff( ao_num, mo_num))
-        allocate(coefficient(mo_num))
-        rc=trexio_read_mo_coefficient(trexio_file, coeff)
+print '(A4)', '#ORB'
+!Les coefficients
+        allocate(coefficient(ao_num, mo_num))
+        rc=trexio_read_mo_coefficient(trexio_file, coefficient)
         if(rc /= TREXIO_SUCCESS) then
                 call trexio_string_of_error(rc, err_msg)
                 print*, 'Error:'//trim(err_msg)
                 call exit(-1)
         endif
-        print*, 'Les coefficients : '
-        do j=1, mo_num
-                print*,'* ORBITAL    1    ',j
-                do i=1, ao_num 
-                       coefficient(j)=coeff(i,j)  
-                       print '(E18.12)', coefficient(j)   
-                enddo
-        enddo
-
+     !   print*, 'Les coefficients : '
+           do j=1, mo_num
+               print '(A14, I4)', '*ORBITAL    1', j
+               print '(4E18.12)',(coefficient(i,j), i=1,ao_num)
+               enddo      
+        
 !----------------------------
 print '(A4)', '#OCC'
 print '(A21)', '* OCCUPATIONS NUMBERS'
+        allocate(occ_1e(mo_num,mo_num))
+        allocate(occupation(mo_num,mo_num))
+        rc=trexio_read_rdm_1e(trexio_file, occ_1e)
+        if(rc /= TREXIO_SUCCESS) then
+                call trexio_string_of_error(rc, err_msg)
+                print*, 'Error:'//trim(err_msg)
+                call exit(-1)
+        endif
+        do i=1, mo_num
+            do j=1, mo_num
+                 occupation(i,i)=occ_1e(i,i)
+            enddo
+        enddo
+                 print '(4(E18.12))', (occupation(i,i),i=1,mo_num)
 
-
-
-!-----------------------------
+!------------------------------------------
 print '(A6)', '#INDEX'
 print '(A12)','* 1234567890'
 print '(A12)','0 iiiiisssss'
