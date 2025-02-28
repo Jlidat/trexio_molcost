@@ -88,12 +88,14 @@ print '(A21)', '* OCCUPATIONS NUMBERS'
                 print*, 'Error:'//trim(err_msg)
                 call exit(-1)
         endif
-        do i=1, mo_num
-            do j=1, mo_num
-                 occupation(i,i)=occ_1e(i,i)
-            enddo
-        enddo
-                 print '(4(E18.12))', (occupation(i,i),i=1,mo_num)
+        
+        !do i=1, mo_num
+        !    do j=1, mo_num
+        !         occupation(i,i)=occ_1e(i,i)
+         !   enddo
+       ! enddo
+                 !print '(4(E18.12))', (occupation(i,i),i=1,mo_num)
+                 print '(4(E18.12))', (occ_1e(i,i),i=1,mo_num)
 
 !------------------------------------------
 print '(A6)', '#INDEX'
