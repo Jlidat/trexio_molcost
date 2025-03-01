@@ -27,11 +27,11 @@ program INPORB
                 print*, 'Error:'//trim(err_msg)
                 call exit(-1)
         endif
-format_fichier=1.1
-print '((A7),(F4.1))', '#INPORB', format_fichier
-print '(A5)', '#INFO'
-print '(A14, /)', '* SCF orbitals'
-print '(3(I8))', 0, 1, 2
+        format_fichier=1.1
+        print '((A7),(F4.1))', '#INPORB', format_fichier
+        print '(A5)', '#INFO'
+        print '(A14, /)', '* SCF orbitals'
+        print '(3(I8))', 0, 1, 2
 
 
 !--------------------------------------
@@ -55,14 +55,14 @@ print '(3(I8))', 0, 1, 2
        ! print*, 'mo_num = '
         print '(I8)', mo_num
 
-call date_and_time(date=date, time=time)
-call system("echo $$")
-day=date(1:4)
-month=date(5:6)
-year=date(7:8)
-print '(A16,x,A4,x,A2,x,A2,x,A8/)','*BC:HOST cnxv3-4', day, month, year, time
+        call date_and_time(date=date, time=time)
+        call system("echo $$")
+        day=date(1:4)
+        month=date(5:6)
+        year=date(7:8)
+        print '(A16,x,A4,x,A2,x,A2,x,A8/)','*BC:HOST cnxv3-4', day, month, year, time
 !----------------------------------------------------------
-print '(A4)', '#ORB'
+        print '(A4)', '#ORB'
 !Les coefficients
         allocate(coefficient(ao_num, mo_num))
         rc=trexio_read_mo_coefficient(trexio_file, coefficient)
@@ -78,8 +78,8 @@ print '(A4)', '#ORB'
                enddo      
         
 !----------------------------
-print '(A4)', '#OCC'
-print '(A21)', '* OCCUPATIONS NUMBERS'
+        print '(A4)', '#OCC'
+        print '(A21)', '* OCCUPATIONS NUMBERS'
         allocate(occ_1e(mo_num,mo_num))
         allocate(occupation(mo_num,mo_num))
         rc=trexio_read_rdm_1e(trexio_file, occ_1e)
@@ -98,10 +98,11 @@ print '(A21)', '* OCCUPATIONS NUMBERS'
                  print '(4(E18.12))', (occ_1e(i,i),i=1,mo_num)
 
 !------------------------------------------
-print '(A6)', '#INDEX'
-print '(A12)','* 1234567890'
-print '(A12)','0 iiiiisssss'
-print '(A12)','1 ssssssssss'
-print '(A6)','2 ssss'
+        print '(A6)', '#INDEX'
+        print '(A12)','* 1234567890'
+        print '(A12)','0 iiiiisssss'
+        print '(A12)','1 ssssssssss'
+        print '(A6)','2 ssss'
+        rc=trexio_close(trexio_file)
 end
 
