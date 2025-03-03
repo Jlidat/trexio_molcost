@@ -10,6 +10,8 @@ test_trexio: test.o trexio_module.o
 INPORB_trexio:INPORB.o trexio_module.o
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
+MONO_trexio:MONO_trexio.o ecriS.o script_trexio.o trexio_module.o
+
 %.o: %.F90 
 	$(FC) -c $< 
 
