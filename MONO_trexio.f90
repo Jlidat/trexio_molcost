@@ -1,5 +1,6 @@
 program trexio2mono
         use trexio
+        use script_trexio
 
         implicit none
         character*(32) :: input_filename
@@ -9,19 +10,25 @@ program trexio2mono
         integer(trexio_exit_code):: rc
 
         real(8), allocatable, dimension(:,:) :: overlap
-        real(8), allocatable, dimension(:) :: value
-        integer(4), allocatable :: isym(:), idx(:,:)
+       ! real(8), allocatable, dimension(:) :: value
+        integer(4), allocatable :: isym(:) !idx(:,:)
         integer(4) :: norb, nsym
         integer(4) :: howmany, offset
-        integer :: k
+        integer :: k,i
 
-        character(len=15) :: mono1
+        character(len=3000) :: mono1
         integer :: if_mono
-
-        character(2) :: ante
+        !character(2) :: ante
+        
         !character(300) :: q5file !!!
         !integer(hid_t) :: file_id
         !integer(4):: error
+
+        !init
+        !if(mono1==' ')mono1=trim(prefix)//'MONO'
+        !cote=''''
+        !q5file=trim(workdir)//trim(prefix)//'q5'
+
 
         input_filename ='h2o.h5'
         ! Ouverture du fichier 
@@ -35,7 +42,6 @@ program trexio2mono
         
         !lire la symetrie
         nsym=1
- !       allocate(isym(nsym))
         
         !Nombre d'orbitales atomiques:
         rc = trexio_read_ao_num(trexio_file, norb)
@@ -44,51 +50,56 @@ program trexio2mono
                 print*, 'Error:'//trim(err_msg)
                 call exit(-1)
         endif
-        allocate(value(norb*(norb+1)/2))
+ 
         allocate(overlap(norb, norb))
-        allocate(idx(norb*(norb+1)/2, 2))
-!        print*, 'isym', isym
+
+        allocate(isym(nsym))
+        do i=1, nsym
+            isym(i)=norb
+        enddo
+ 
+        print*, 'isym', isym
         print*, 'norb', norb
 ! Lecture des recouvrements
 
         howmany = norb*(norb+1)/2
         offset=0
 
-       rc=trexio_read_ao_1e_int_overlap(trexio_file, value)
+       rc=trexio_read_ao_1e_int_overlap(trexio_file, overlap)
         if(rc/=TREXIO_SUCCESS) then
                 call trexio_string_of_error(rc, err_msg)
                 print*, 'Error:'//trim(err_msg)
                 call exit(-1)
         endif
-        overlap=0.d0
-        do k=1, howmany
-                overlap(idx(k,1), idx(k,2))= value(k)
-                overlap(idx(k,2), idx(k,1))= value(k)
-        enddo
+        !overlap=0.d0
+        !do k=1, howmany
+        !        overlap(idx(k,1), idx(k,2))= value(k)
+        !        overlap(idx(k,2), idx(k,1))= value(k)
+        !enddo
         print*, 'overlap'
 
         call script(overlap,norb,norb,norb,norb)
         call ecriS(if_mono, overlap, norb, mono1, 'TREXIO', .true., nsym, isym,(/(k,k=1,norb)/))
 
 
-        if(ante=='OM')then
-                rc=trexio_read_mo_1e_int_overlap(trexio_file, value)
-                if(rc/=TREXIO_SUCCESS) then
-                        call trexio_string_of_error(rc, err_msg)
-                        print*, 'Error:'//trim(err_msg)
-                        call exit(-1)
-                 endif
+       ! if(ante=='OM')then
+               ! rc=trexio_read_mo_1e_int_overlap(trexio_file, value)
+               ! if(rc/=TREXIO_SUCCESS) then
+                   !     call trexio_string_of_error(rc, err_msg)
+                  !      print*, 'Error:'//trim(err_msg)
+                 !       call exit(-1)
+                ! endif
                  
-                 overlap=0.d0
-                 do k=1, howmany
-                        overlap(idx(k,1), idx(k,2))=value(k)
-                        overlap(idx(k,2), idx(k,1))=value(k)
-                 enddo
-                 print*, 'OneInt'
-                call script(overlap,norb,norb,norb,norb)
-                call ecriS(-if_mono, overlap, norb, mono1, 'TREXIO', .false., nsym, isym,(/(k, k=1, norb)/))
-                rewind if_mono
-        endif
+               !  overlap=0.d0
+              !   do k=1, howmany
+             !           overlap(idx(k,1), idx(k,2))=value(k)
+            !            overlap(idx(k,2), idx(k,1))=value(k)
+           !      enddo
+          !       print*, 'OneInt'
+         !       call script(overlap,norb,norb,norb,norb)
+        !        call ecriS(-if_mono, overlap, norb, mono1, 'TREXIO', .false., nsym, isym,(/(k, k=1, norb)/))
+        !        rewind if_mono
+       ! endif
 
         rc=trexio_close(trexio_file)
 end

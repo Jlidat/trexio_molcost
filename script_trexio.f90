@@ -19,7 +19,7 @@
         print*,' '
         WRITE(6,1024) (I,I=N1,N2)
         print*,' '
-        allocate(OAP(MD,ND))
+        !allocate(OAP(MD,ND))
            DO JJ=1, M
               WRITE(6,1025) JJ,(OAP(JJ,II),II=N1,N2)
            ENDDO
@@ -190,7 +190,7 @@
           nn=n*(n+1)/2
           ifin=0
           print*,'n',n
-          allocate(h(jfin))
+         ! allocate(h(jfin))
           do m=1,n,10
              print*,' '
              print'(4x,10i8)',(k,k=m,m+10-1)
