@@ -1,6 +1,6 @@
 program trexio2mono
         use trexio
-        use script_trexio
+        !use script_trexio
 
         implicit none
         character*(32) :: input_filename
@@ -16,16 +16,18 @@ program trexio2mono
         integer(4) :: howmany, offset
         integer :: k,i
 
-        character(len=3000) :: mono1
+        character(len=30) :: mono1
+        character(len=30) :: prefix
+        character(len=2) :: cote
         integer :: if_mono
-        !character(2) :: ante
+        character(2) :: ante
         
         !character(300) :: q5file !!!
         !integer(hid_t) :: file_id
         !integer(4):: error
 
         !init
-        !if(mono1==' ')mono1=trim(prefix)//'MONO'
+        if(mono1==' ')mono1=trim(prefix)//'MONO'
         !cote=''''
         !q5file=trim(workdir)//trim(prefix)//'q5'
 
@@ -71,35 +73,11 @@ program trexio2mono
                 print*, 'Error:'//trim(err_msg)
                 call exit(-1)
         endif
-        !overlap=0.d0
-        !do k=1, howmany
-        !        overlap(idx(k,1), idx(k,2))= value(k)
-        !        overlap(idx(k,2), idx(k,1))= value(k)
-        !enddo
         print*, 'overlap'
 
         call script(overlap,norb,norb,norb,norb)
         call ecriS(if_mono, overlap, norb, mono1, 'TREXIO', .true., nsym, isym,(/(k,k=1,norb)/))
 
-
-       ! if(ante=='OM')then
-               ! rc=trexio_read_mo_1e_int_overlap(trexio_file, value)
-               ! if(rc/=TREXIO_SUCCESS) then
-                   !     call trexio_string_of_error(rc, err_msg)
-                  !      print*, 'Error:'//trim(err_msg)
-                 !       call exit(-1)
-                ! endif
-                 
-               !  overlap=0.d0
-              !   do k=1, howmany
-             !           overlap(idx(k,1), idx(k,2))=value(k)
-            !            overlap(idx(k,2), idx(k,1))=value(k)
-           !      enddo
-          !       print*, 'OneInt'
-         !       call script(overlap,norb,norb,norb,norb)
-        !        call ecriS(-if_mono, overlap, norb, mono1, 'TREXIO', .false., nsym, isym,(/(k, k=1, norb)/))
-        !        rewind if_mono
-       ! endif
 
         rc=trexio_close(trexio_file)
 end
