@@ -17,23 +17,17 @@ program trexio2mono
         integer :: k,i
 
         character(len=30) :: mono1
-        character(len=30) :: prefix
-        character(len=2) :: cote
-        integer :: if_mono
-        character(2) :: ante
-        
-        !character(300) :: q5file !!!
-        !integer(hid_t) :: file_id
-        !integer(4):: error
-
-        !init
-        if(mono1==' ')mono1=trim(prefix)//'MONO'
-        !cote=''''
-        !q5file=trim(workdir)//trim(prefix)//'q5'
+        integer :: if_mono 
+        character(len=256) :: output_filename
+        integer :: output_unit
 
 
+        mono1='MONO'
+        output_unit=12
         input_filename ='h2o.h5'
-        ! Ouverture du fichier 
+        output_filename ='output.dat'
+
+        ! Ouverture du fichier d'entrée
         trexio_file=trexio_open(input_filename, 'r', TREXIO_AUTO, rc)
         ! Gestion de l'erreur
         if(rc/=TREXIO_SUCCESS) then
@@ -42,6 +36,8 @@ program trexio2mono
                 call exit(-1)
         endif
         
+        ! Ouverture du fichier de sortie
+        open(unit=output_unit, file=output_filename, status='replace', action='write', form='unformatted')
         !lire la symetrie
         nsym=1
         
@@ -61,7 +57,9 @@ program trexio2mono
         enddo
  
         print*, 'isym', isym
+        write(output_unit) 'isym', isym
         print*, 'norb', norb
+        write(output_unit) 'norb', norb
 ! Lecture des recouvrements
 
         howmany = norb*(norb+1)/2
@@ -74,10 +72,13 @@ program trexio2mono
                 call exit(-1)
         endif
         print*, 'overlap'
-
+        write(output_unit) 'overlap'
+        
         call script(overlap,norb,norb,norb,norb)
+    !    call ecriS(output_filename, overlap, norb, mono1, 'TREXIO', .true., nsym, isym,(/(k,k=1,norb)/))
         call ecriS(if_mono, overlap, norb, mono1, 'TREXIO', .true., nsym, isym,(/(k,k=1,norb)/))
 
 
         rc=trexio_close(trexio_file)
+        close(output_unit)
 end
