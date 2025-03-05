@@ -103,5 +103,6 @@ print '(A12)','* 1234567890'
 print '(A12)','0 iiiiisssss'
 print '(A12)','1 ssssssssss'
 print '(A6)','2 ssss'
+rc=trexio_close(trexio_file)
 end
 
