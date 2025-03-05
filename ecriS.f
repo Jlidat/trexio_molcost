@@ -31,7 +31,7 @@ c entete du fichier
 
       if(entete) then
          write(tete(1),'(a)')'=================================='
-         write(tete(2),'(a80)')'File: ', trim(file)
+         write(tete(2),'(2a)')'File: ', trim(file)
          write(tete(3),'(2a)')'created by ',trim(prog)
          write(tete(4),'(2a)')'date: ',cdate
          write(tete(5),'(a)')'=================================='

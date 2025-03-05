@@ -1,6 +1,5 @@
 program trexio2mono
         use trexio
-        !use script_trexio
 
         implicit none
         character*(32) :: input_filename
@@ -10,8 +9,7 @@ program trexio2mono
         integer(trexio_exit_code):: rc
 
         real(8), allocatable, dimension(:,:) :: overlap
-       ! real(8), allocatable, dimension(:) :: value
-        integer(4), allocatable :: isym(:) !idx(:,:)
+        integer(4), allocatable :: isym(:) 
         integer(4) :: norb, nsym
         integer(4) :: howmany, offset
         integer :: k,i
@@ -38,6 +36,7 @@ program trexio2mono
         
         ! Ouverture du fichier de sortie
         open(unit=output_unit, file=output_filename, status='replace', action='write', form='unformatted')
+      
         !lire la symetrie
         nsym=1
         
@@ -60,7 +59,8 @@ program trexio2mono
         write(output_unit) 'isym', isym
         print*, 'norb', norb
         write(output_unit) 'norb', norb
-! Lecture des recouvrements
+        
+        ! Lecture des recouvrements
 
         howmany = norb*(norb+1)/2
         offset=0
@@ -75,8 +75,7 @@ program trexio2mono
         write(output_unit) 'overlap'
         
         call script(overlap,norb,norb,norb,norb)
-    !    call ecriS(output_filename, overlap, norb, mono1, 'TREXIO', .true., nsym, isym,(/(k,k=1,norb)/))
-        call ecriS(if_mono, overlap, norb, mono1, 'TREXIO', .true., nsym, isym,(/(k,k=1,norb)/))
+        call ecriS(output_unit, overlap, norb, mono1, 'TREXIO', .true., nsym, isym,(/(k,k=1,norb)/))
 
 
         rc=trexio_close(trexio_file)
