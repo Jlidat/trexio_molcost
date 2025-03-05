@@ -10,14 +10,20 @@ test_trexio: test.o trexio_module.o
 INPORB_trexio:INPORB.o trexio_module.o
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
+MONO_trexio:MONO_trexio.o ecriS.o script.o trexio_module.o
+	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
+
 %.o: %.F90 
 	$(FC) -c $< 
+
+%.o: %.f trexio_module.o
+	$(FC) -c $(FCFLAGS) $< -std=legacy
 
 %.o: %.f90 trexio_module.o
 	$(FC) -c $< $(FCFLAGS) 
 
-%.o: %.F90
-	$(FC) -c $< 
+#%.o: %.F90
+#	$(FC) -c $< 
 
 .PHONY: clean
 

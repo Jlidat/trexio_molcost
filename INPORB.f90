@@ -121,7 +121,7 @@ program INPORB
                  print '(4(E18.12))', (occ_1e(i,i),i=1,mo_num)
                  write(output_unit, '(4(E18.12))') (occ_1e(i,i),i=1,mo_num)
 
-!------------------------------------------
+!-----------------------------------------
         print '(A6)', '#INDEX'
         print '(A12)','* 1234567890'
         print '(A12)','0 iiiiisssss'
