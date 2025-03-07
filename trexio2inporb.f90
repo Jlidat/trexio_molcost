@@ -1,4 +1,4 @@
-program INPORB
+  subroutine trexio2inporb
         use trexio
 
         implicit none
@@ -17,12 +17,12 @@ program INPORB
         real(8), allocatable :: occ_1e(:,:)
         real(8), allocatable :: occupation(:,:)
 
-        character(len=8) :: date, time
+        character(len=10) :: date, time
         character(len=7) :: day, month, year
 
         output_unit=11
         input_filename = 'h2o.h5'
-        output_filename = 'INPORB_output.txt'
+        output_filename = 'INPORB'
 
         ! Ouverture du fichier
         trexio_file=trexio_open(input_filename, 'r', TREXIO_AUTO, rc)
@@ -39,12 +39,12 @@ program INPORB
         format_fichier=1.1
         print '((A7),(F4.1))', '#INPORB', format_fichier
         print '(A5)', '#INFO'
-        print '(A14, /)', '* SCF orbitals'
+        print '(A14)', '* SCF orbitals'
         print '(3(I8))', 0, 1, 2
         
         write(output_unit, '((A7),(F4.1))') '#INPORB', format_fichier
         write(output_unit, '(A5)') '#INFO'
-        write(output_unit, '(A14, /)') '* SCF orbitals'
+        write(output_unit, '(A14)') '* SCF orbitals'
         write(output_unit, '(3(I8))') 0, 1, 2
 
 
@@ -91,18 +91,18 @@ program INPORB
         endif
      !   print*, 'Les coefficients : '
            do j=1, mo_num
-               print '(A14, I4)', '*ORBITAL    1', j
-               print '(4E18.12)',(coefficient(i,j), i=1,ao_num)
-               write(output_unit, '(A14, I4)') '*ORBITAL    1', j
-               write(output_unit, '(4E18.12)') (coefficient(i,j), i=1,ao_num)
+               print '(A14, I4)', '* ORBITAL    1', j
+               print '(4D18.12)',(coefficient(i,j), i=1,ao_num)
+               write(output_unit, '(A9,2I5)') '* ORBITAL',1, j
+               write(output_unit, '(4D18.12)') (coefficient(i,j), i=1,ao_num)
                enddo      
         
 !----------------------------
         print '(A4)', '#OCC'
-        print '(A21)', '* OCCUPATIONS NUMBERS'
+        print '(A21)', '* OCCUPATION NUMBERS'
         
         write(output_unit, '(A4)') '#OCC'
-        write(output_unit, '(A21)') '* OCCUPATIONS NUMBERS'
+        write(output_unit, '(A20)') '* OCCUPATION NUMBERS'
         allocate(occ_1e(mo_num,mo_num))
         allocate(occupation(mo_num,mo_num))
         rc=trexio_read_rdm_1e(trexio_file, occ_1e)
@@ -117,9 +117,9 @@ program INPORB
         !         occupation(i,i)=occ_1e(i,i)
          !   enddo
        ! enddo
-                 !print '(4(E18.12))', (occupation(i,i),i=1,mo_num)
-                 print '(4(E18.12))', (occ_1e(i,i),i=1,mo_num)
-                 write(output_unit, '(4(E18.12))') (occ_1e(i,i),i=1,mo_num)
+                 !print '(4(D18.12))', (occupation(i,i),i=1,mo_num)
+                 print '(4(D18.12))', (occ_1e(i,i),i=1,mo_num)
+                 write(output_unit, '(4(D18.12))') (occ_1e(i,i),i=1,mo_num)
 
 !-----------------------------------------
         print '(A6)', '#INDEX'
