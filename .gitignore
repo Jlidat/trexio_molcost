@@ -9,3 +9,8 @@ fort.*
 *.dat
 info2trexio
 *.Info
+H20.mono
+INPORB
+INPORB_old.f90
+trexio2inporb
+trexio2mono
