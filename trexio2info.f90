@@ -1,4 +1,4 @@
-program test
+program trexio2info 
       use trexio
 
       implicit none
@@ -13,7 +13,7 @@ program test
       double precision :: E_nuclear_repulsion
       character(len=4), allocatable :: label(:)
       character(len=14), allocatable :: label_c(:)
-      character(len=6), allocatable :: label_l(:)
+      character(len=16), allocatable :: label_l(:)
       character(len=4) :: j_char, k_char, l_char,kl_char
       integer :: c
       integer :: shell_num
@@ -27,8 +27,7 @@ program test
 
       output_unit=10
       input_filename = 'h2o.h5'
-      output_filename ='Info_output.txt'
-
+      output_filename ='H2O.Info'
 
       !Ouverture du fichier input :
 
@@ -73,7 +72,7 @@ program test
       print '(A, I5, A)', ' isym=', n, ','
       
       write(output_unit, '(A, I5)') ' norb=', n
-      write(output_unit, '(A, I5, A)'), ' isym=', n, ','
+      write(output_unit, '(A, I5, A)') ' isym=', n, ','
 
       !Nombre d'atomes :
       rc = trexio_read_nucleus_num(trexio_file, nucleus_num)
@@ -173,34 +172,34 @@ program test
 !                print*, kl_char
                 labels(j) = trim(kl_char)
                 if(labels(j)=='10') then
-                        labels(j)=''''//trim(labelindex(i))//'  '//'s'//'   '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'1s'//'  '//''''
                elseif(labels(j)=='11') then
                         !labels(j)=trim(labelindex(i))//'px'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'px'//'  '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'2px'//' '//''''
                 elseif(labels(j)=='21')then
                         !labels(j)='py'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'py'//'  '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'2py'//' '//''''
                 elseif(labels(j)=='31')then
                         !labels(j)='pz'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'pz'//'  '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'2pz'//' '//''''
                 elseif(labels(j)=='12')then
                         !labels(j)='dxx'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'dxx'//' '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'3dxx'//''//''''
                elseif(labels(j)=='22')then
                         !labels(j)='dxy'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'dxy'//' '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'3dxy'//''//''''
                 elseif(labels(j)=='32')then
                         !labels(j)='dxz'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'dxz'//' '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'3dxz'//''//''''
                elseif(labels(j)=='42')then
                         !labels(j)='dyy'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'dyy'//' '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'3dyy'//''//''''
                 elseif(labels(j)=='52')then
                          labels(j)='dyz'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'dyz'//' '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'3dyz'//''//''''
                  else
                          labels(j)='dzz'
-                        labels(j)=''''//trim(labelindex(i))//'  '//'dzz'//' '//''''
+                        labels(j)=''''//trim(labelindex(i))//'  '//'3dzz'//''//''''
                 endif
            
           !  print*, labels(j)
