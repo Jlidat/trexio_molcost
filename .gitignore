@@ -5,7 +5,14 @@ trexio2info
 INPORB_trexio
 MONO_trexio
 fort.*
-*.txt
-*.dat
-info2trexio
 *.Info
+INPORB
+INPORB_trexio
+MONO_trexio
+info2trexio
+trexio2info
+trexio2inporb
+*.dat
+script_entete.f90
+INPORB.f90
+INPORB_old.f90
