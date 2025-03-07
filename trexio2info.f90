@@ -1,4 +1,4 @@
-program trexio2info 
+    subroutine trexio2info 
       use trexio
 
       implicit none
@@ -26,10 +26,11 @@ program trexio2info
       integer :: output_unit
 
       output_unit=10
-      input_filename = 'h2o.h5'
+     ! input_filename = 'h2o.h5'
       output_filename ='H2O.Info'
 
-
+      call getarg(1, input_filename)
+      
       !Ouverture du fichier input :
 
       trexio_file = trexio_open(input_filename, 'r', TREXIO_AUTO, rc)

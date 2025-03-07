@@ -1,10 +1,11 @@
 # trexio_molcost
 Nommenclatures des fichiers :
-trexio2info.f90 : Trexio lit H2O.H5 et produit le fichier H2O.Info
-trexio2inporb.f90 : Trexio lit H20.H5 et produit le fichier INPORB -> ce fichier contient les orbitales atomiques et moléculaires.
-trexio2mono.f90 : Trexio lit H20.H5 et produit le fichier H20.mono -> ce fichier contient les intégrales OA.
+-trexio2info.f90 : Trexio lit H2O.H5 et produit le fichier H2O.Info
+-trexio2inporb.f90 : Trexio lit H20.H5 et produit le fichier INPORB -> ce fichier contient les orbitales atomiques et moléculaires.
+-trexio2mono.f90 : Trexio lit H20.H5 et produit le fichier H20.mono -> ce fichier contient les intégrales OA.
 
-
+getarg(i, input_filename) : fonction standard pour obtenir le i-eme argument passés à un programme via la ligne de commande lors de son exécution : exemple getarg(1, input_filename)
+./trexio2info h2o.h5 => le input_filename = h2o.h5 
 
 
 Reproduction du fichier H2O.info
