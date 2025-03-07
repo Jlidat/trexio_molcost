@@ -1,4 +1,12 @@
 # trexio_molcost
+Nommenclatures des fichiers :
+trexio2info.f90 : Trexio lit H2O.H5 et produit le fichier H2O.Info
+trexio2inporb.f90 : Trexio lit H20.H5 et produit le fichier INPORB -> ce fichier contient les orbitales atomiques et moléculaires.
+trexio2mono.f90 : Trexio lit H20.H5 et produit le fichier H20.mono -> ce fichier contient les intégrales OA.
+
+
+
+
 Reproduction du fichier H2O.info
 
 *Ouverture et lecture du fichier h2o.h5 se fait l'appel à la focntion trexio_open. Cette fonction prend quatre arguments; 
