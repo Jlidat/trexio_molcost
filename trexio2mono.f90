@@ -1,4 +1,4 @@
-program trexio2mono
+subroutine trexio2mono
         use trexio
 
         implicit none
@@ -24,7 +24,7 @@ program trexio2mono
         mono1='MONO'
         output_unit=12
         input_filename ='h2o.h5'
-        output_filename ='H20.mono'
+        output_filename ='H2O.mono'
 
         ! Ouverture du fichier d'entrée
         trexio_file=trexio_open(input_filename, 'r', TREXIO_AUTO, rc)
