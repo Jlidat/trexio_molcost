@@ -1,4 +1,4 @@
-program trexio2inporb
+  subroutine trexio2inporb
         use trexio
 
         implicit none
