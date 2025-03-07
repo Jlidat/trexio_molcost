@@ -2,4 +2,14 @@
 *.mod
 test_trexio
 fort.*
-
+*.mono
+*.Info
+INPORB
+MONO_trexio
+INPORB_old.f90
+*.txt
+INPORB_trexio
+info2trexio
+trexio2info
+trexio2inporb
+trexio2mono
