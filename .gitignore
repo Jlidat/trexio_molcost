@@ -2,4 +2,15 @@
 *.mod
 test_trexio
 fort.*
+*.Info
+INPORB
+INPORB_trexio
+MONO_trexio
+info2trexio
+trexio2info
+trexio2inporb
+*.dat
+script_entete.f90
+INPORB.f90
+INPORB_old.f90
 
