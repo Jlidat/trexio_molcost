@@ -5,6 +5,7 @@ fort.*
 *.mono
 *.Info
 INPORB
+INPORB_bis
 MONO_trexio
 INPORB_old.f90
 *.txt
@@ -13,3 +14,11 @@ info2trexio
 trexio2info
 trexio2inporb
 trexio2mono
+trexioMain
+tst_locoa.f90
+LOCOA
+LOCORB
+locoa2trexio
+locorb2trexio
+locorb2trexio_avec_out_temp.f90
+locorb2trexio_save.f90

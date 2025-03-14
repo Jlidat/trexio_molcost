@@ -23,7 +23,8 @@ subroutine trexio2mono
 
         mono1='MONO'
         output_unit=12
-        input_filename ='h2o.h5'
+        !input_filename ='h2o.h5'
+        call getarg(1, input_filename)
         output_filename ='H2O.mono'
 
         ! Ouverture du fichier d'entrée
