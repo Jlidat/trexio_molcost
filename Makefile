@@ -11,6 +11,7 @@ trexioMain: trexio2info.o trexio2inporb.o trexio_module.o\
 
 trexio2info: trexio2info.o trexio_module.o 
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
+
 trexio2inporb:trexio2inporb.o trexio_module.o
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
