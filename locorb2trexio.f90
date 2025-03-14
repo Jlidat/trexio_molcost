@@ -9,17 +9,18 @@ contains
         integer(trexio_exit_code) ::rc
         character*(128) :: err_msg
 
-        character(256) :: input_filename, output_filename !, output_filename_tmp
+        character(256) :: input_filename, output_filename
         integer :: input_unit , output_unit
         
-        integer :: ios,i,j,k
-        integer ::n,m,m_14,m_16, mo_num, ao_num,pas
+        integer :: ios,i,j
+        integer :: mo_num, ao_num,pas
         character(len=72)::line
         real(8), allocatable:: mo_coefficient(:,:)
         real(8) ::c1, c2, c3, c4, c5,c11, c22,c33,C111,C222
 
 !--------Nom des fichiers d'entrée et de sortie
-        input_filename='LOCORB'
+       ! input_filename='LOCORB'
+       call getarg(1, input_filename)
         output_filename='h2o.h5'
         input_unit=10
         output_unit=11
