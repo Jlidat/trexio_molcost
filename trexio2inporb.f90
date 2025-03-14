@@ -21,7 +21,8 @@
         character(len=7) :: day, month, year
 
         output_unit=11
-        input_filename = 'h2o.h5'
+       ! input_filename = 'h2o.h5'
+       call getarg(1, input_filename)
         output_filename = 'INPORB'
 
         ! Ouverture du fichier
