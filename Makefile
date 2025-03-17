@@ -5,10 +5,16 @@ FCFLAGS=$(shell pkg-config --cflags trexio) $(DEBUG_FLAGS)
 
 LIBS=$(shell pkg-config --libs trexio)
 
-trexioMain: trexioMain.o trexio2info.o trexio2inporb.o trexio2mono.o trexio_module.o 
+trexioMain_5d: trexioMain.o trexio_module.o trexio2info_5d.o trexio2inporb.o trexio2mono.o 
+	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
+
+trexioMain: trexioMain.o trexio2info.o trexio_module.o trexio2inporb.o trexio2mono.o 
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
 trexio2info: trexio2info.o trexio_module.o 
+	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
+
+trexio2info_5d: trexio2info_5d.o trexio_module.o 
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
 trexio2inporb:trexio2inporb.o trexio_module.o
