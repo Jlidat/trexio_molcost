@@ -3,6 +3,7 @@ subroutine trexio2mono
 
         implicit none
         character*(32) :: input_filename
+        character*(37) :: output_filename
         character*(80) :: aa
         character*(128) :: err_msg
 
@@ -16,15 +17,18 @@ subroutine trexio2mono
         integer :: k,i
 
         character(len=30) :: mono1
-        integer :: if_mono 
-        character(len=256) :: output_filename
+       ! integer :: if_mono 
         integer :: output_unit
+       ! character(32) :: base_name
+       ! integer :: len_input
 
 
         mono1='MONO'
         output_unit=12
-        input_filename ='h2o.h5'
-        output_filename ='H2O.mono'
+!        input_filename ='h2o.h5'
+        call getarg(1, input_filename)
+!        output_filename ='h2oal3h.mono'!'benzene.mono'!'H2O.mono'
+        call Mono_output_filename(input_filename, output_filename)        
 
         ! Ouverture du fichier d'entrée
         trexio_file=trexio_open(input_filename, 'r', TREXIO_AUTO, rc)
@@ -84,3 +88,33 @@ subroutine trexio2mono
         rc=trexio_close(trexio_file)
         close(output_unit)
 end
+!----------------------------------------
+subroutine Mono_output_filename(ifilename, ofilename)
+        implicit none
+        character(*) :: ifilename, ofilename
+        integer :: kk
+        character(32) :: base_name
+        integer::len_input
+
+        
+        call getarg(1, ifilename)
+
+        len_input = len_trim(ifilename)
+
+        !Extraire le nom de base du fichier sans l'extension
+        base_name=''
+        do kk=len_input, 1, -1
+                if(ifilename(kk:kk)=='.')then
+                        base_name=ifilename(1:kk-1)
+                        exit
+                 endif
+        enddo
+        !Construre le nom de fichier de sortie
+        if(base_name/='')then
+                write(ofilename, '(A,A)') trim(base_name),'.Mono'
+         else
+                ofilename = ifilename//'.Mono'
+         endif
+end
+
+              
