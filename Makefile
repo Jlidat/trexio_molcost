@@ -7,8 +7,7 @@ LIBS=$(shell pkg-config --libs trexio)
 
 
 
-trexioMain_5d: trexioMain_5d.o trexio_module.o trexio2info_5d.o trexio2inporb.o trexio2mono.o &
-       	       script.o ecriS.o 
+trexioMain_5d: trexioMain_5d.o trexio_module.o trexio2info_5d.o trexio2inporb.o trexio2mono.o script.o ecriS.o 
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
 trexio2info_5d: trexio2info_5d.o  trexio_module.o 
