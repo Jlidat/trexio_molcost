@@ -5,16 +5,8 @@ FCFLAGS=$(shell pkg-config --cflags trexio) $(DEBUG_FLAGS)
 
 LIBS=$(shell pkg-config --libs trexio)
 
-#generate_output_filename: generate_output_filename.o
-#	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
-trexioMain: trexioMain.o trexio2info.o trexio2inporb.o trexio2mono.o trexio_module.o script.o ecriS.o 
-	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
-
-trexioMain_5d: trexioMain.o trexio_module.o trexio2info_5d.o trexio2inporb.o trexio2mono.o script.o ecriS.o #generate_output_filename.o
-	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
-
-trexio2info: trexio2info.o trexio_module.o 
+trexioMain_5d: trexioMain.o trexio_module.o trexio2info_5d.o trexio2inporb.o trexio2mono.o script.o ecriS.o 
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
 trexio2info_5d: trexio2info_5d.o  trexio_module.o 
@@ -26,6 +18,11 @@ trexio2inporb:trexio2inporb.o trexio_module.o
 trexio2mono:trexio2mono.o ecriS.o script.o trexio_module.o
 	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 
+trexioMain: trexioMain.o trexio2info.o trexio2inporb.o trexio2mono.o trexio_module.o script.o ecriS.o 
+	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
+
+trexio2info: trexio2info.o trexio_module.o 
+	$(FC) -o $@ $(FCFLAGS) $^ $(LIBS)
 %.o: %.F90 
 	$(FC) -c $< 
 
